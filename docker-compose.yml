@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+    services:
+        build: ./example_services
+        expose: 
+            - 4001
+            - 4002
+    gateway:
+        build: .
+        ports:
+            - 8000:80
+        environment: 
+            DEFAULT_MAX_AGE: '5'
+            ENGINE_API_KEY: '...'
+            CONFIG: |
+                [{
+                    "name": "1",
+                    "url": "http://services:4001"
+                },
+                {   "name": "2",
+                    "url": "http://services:4002"
+                }]
