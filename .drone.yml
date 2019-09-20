@@ -1,0 +1,41 @@
+kind: pipeline
+name: default
+
+trigger:
+  event:
+    - push
+
+steps:
+  - name: 1
+    image: node:10-alpine
+    commands:
+      - npm ci
+      - npm test
+      
+  # - name: bump
+  #   image: xplugins/bump
+  #   settings:
+  #     github_token: 
+  #       from_secret: github_token
+  #     versionfile: VERSION
+  # - name: build
+  #   image: plugins/docker
+  #   settings:
+  #     repo: todo/todo
+  #     username: xmorse
+  #     # cache_from: xplugins/bump
+  #     tags: 
+  #       - latest
+  #       # [bump]
+  #       - 0.0.1
+  #     password:
+  #       from_secret: docker_password
+  # - name: npm
+  #   image: plugins/npm
+  #   settings:
+  #     username: xmorse
+  #     password:
+  #       from_secret: npm_password
+  #     email: beats.by.morse@gmail.com
+
+
