@@ -36,7 +36,7 @@ const main = async () => {
         })
 
         return await server.listen(PORT).then(({ url }) => {
-            console.log(`🚀 Server ready at ${url}`)
+            console.log(`🚀 Server ready at port 80`)
         })
     } catch (e) {
         console.error(chalk.red(e.name + ', ' + e.message))
