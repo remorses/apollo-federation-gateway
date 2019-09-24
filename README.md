@@ -13,7 +13,7 @@ services:
         environment: 
             DEFAULT_MAX_AGE: '5'
             ENGINE_API_KEY: '...'
-            FORWARD_HEADERS: 'Authorization, X-Custom-Header'
+            FORWARD_HEADERS: 'Authorization, X-Custom-Header' # default is Authorization, pass '' to reset
             CONFIG: |
                 [{
                     "name": "1",
