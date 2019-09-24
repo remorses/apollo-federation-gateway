@@ -13,6 +13,7 @@ services:
         environment: 
             DEFAULT_MAX_AGE: '5'
             ENGINE_API_KEY: '...'
+            FORWARD_HEADERS: 'Authorization, X-Custom-Header'
             CONFIG: |
                 [{
                     "name": "1",
