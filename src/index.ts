@@ -23,7 +23,7 @@ type Context = {
 
 const makeGateway = () => {
     const headersMap = Object.fromEntries(headersToForward.map(x => [x.toLowerCase(), x]))
-    console.log(headersMap)
+    // console.log(headersMap)
     return new ApolloGateway({
         serviceList: getConfig(),
         buildService({ name, url }) {
@@ -31,7 +31,7 @@ const makeGateway = () => {
                 url,
                 willSendRequest<Context>({ request, context }) {
                     if (context.headers) {
-                        console.log(context.headers)
+                        // console.log(context.headers)
                         Object.entries(context.headers).forEach(([k, v]) => {
                             if (headersMap[k]) {
                                 request.http.headers.set(headersMap[k], v)
