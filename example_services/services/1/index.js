@@ -24,6 +24,12 @@ const server = new ApolloServer({
     {
       typeDefs,
       resolvers: {
+        Query: {
+          ok: () => {
+            throw new Error('aii')
+            return false
+          }
+        },
         Bot: {
           __resolveReference: (x) => {
             return { id: 9797, __typename: 'Bot'}
