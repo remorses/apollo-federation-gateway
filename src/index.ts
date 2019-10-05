@@ -2,6 +2,7 @@ import { ApolloServer } from 'apollo-server'
 import { ApolloGateway, RemoteGraphQLDataSource } from '@apollo/gateway'
 import chalk from 'chalk'
 import { IncomingHttpHeaders } from 'http'
+import {getConfig, waitForServices, } from './support'
 
 const PORT = 80
 const headersToForward: string[] = process.env.FORWARD_HEADERS
@@ -9,23 +10,19 @@ const headersToForward: string[] = process.env.FORWARD_HEADERS
     : ['Authorization']
 
 
-const getConfig = () => {
-    try {
-        return JSON.parse(process.env.CONFIG as string)
-    } catch {
-        throw Error('cannot parse env.CONFIG\n' + process.env.CONFIG)
-    }
-}
-
 type Context = {
     headers: IncomingHttpHeaders & any
 }
 
 const makeGateway = () => {
-    const headersMap = Object.fromEntries(headersToForward.map(x => [x.toLowerCase(), x]))
+    const headersMap = Object.fromEntries(
+        headersToForward.map((x) => [x.toLowerCase(), x])
+    )
     // console.log(headersMap)
     return new ApolloGateway({
         serviceList: getConfig(),
+        experimental_pollInterval:
+            Number(process.env.POLL_INTERVAL || 0) || undefined,
         buildService({ name, url }) {
             return new RemoteGraphQLDataSource({
                 url,
@@ -46,6 +43,8 @@ const makeGateway = () => {
 
 const main = async () => {
     try {
+        const urls = getConfig().map(({ url }) => url)
+        await waitForServices(urls)
         const gateway = makeGateway()
         const { schema, executor } = await gateway.load()
 
@@ -57,7 +56,7 @@ const main = async () => {
             },
             cacheControl: {
                 calculateHttpHeaders: true,
-                defaultMaxAge: Number(process.env.DEFAULT_MAX_AGE) || 0
+                defaultMaxAge: Number(process.env.CACHE_MAX_AGE) || 0
             },
             context: ({ req }): Context => {
                 return {

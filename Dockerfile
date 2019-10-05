@@ -10,5 +10,10 @@ RUN npm ci
 
 COPY . /src/
 
+RUN npm run build
+
+RUN ls
+RUN pwd
+
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["npm", "start"]
