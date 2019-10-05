@@ -11,20 +11,11 @@ services:
             - 80:80
         image: xmorse/apollo-federation-gateway
         environment: 
-            DEFAULT_MAX_AGE: '5'
+            CACHE_MAX_AGE: '5'
             ENGINE_API_KEY: '...'
             FORWARD_HEADERS: 'Authorization, X-Custom-Header' # default is Authorization, pass '' to reset
-            CONFIG: |
-                [{
-                    "name": "1",
-                    "url": "http://localhost:4001"
-                },
-                {   "name": "2",
-                    "url": "http://localhost:4002"
-                },
-                {   "name": "3",
-                    "url": "http://localhost:4003"
-                }]
+            URL_0: http://service1
+            URL_1: http://service2
                 
 ```
 
