@@ -1,5 +1,5 @@
 
-## Usage
+## Usage with docker-compose
 
 ```yml
 
@@ -19,7 +19,9 @@ services:
             - "FORWARD_HEADERS=Authorization, X-Custom-Header" # default is Authorization, pass '' to reset
             - URL_0=http://service1
             - URL_1=http://service2
+            - URL_2=http://mongoke
                 
 ```
 
-To see an example run the docker-compose in this repository
+To run an example run the docker-compose in this repository
+Project was born to integrate [mongoke](https://github.com/remorses/mongoke) with other services, be sure to check it out.
