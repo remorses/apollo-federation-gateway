@@ -23,5 +23,5 @@ services:
                 
 ```
 
-To run an example run the docker-compose in this repository
+To run an example run the docker-compose in this repository.
 Project was born to integrate [mongoke](https://github.com/remorses/mongoke) with other services, be sure to check it out.
