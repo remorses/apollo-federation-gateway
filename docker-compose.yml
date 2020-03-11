@@ -13,6 +13,7 @@ services:
         environment: 
             CACHE_MAX_AGE: '5'
             ENGINE_API_KEY: '...'
+            PORT: '80'
             # POLL_INTERVAL: 30
             URL_0: "http://services:4001"
             URL_1: "http://services:4002"

@@ -2,13 +2,12 @@ import { ApolloServer } from 'apollo-server'
 import { ApolloGateway, RemoteGraphQLDataSource } from '@apollo/gateway'
 import chalk from 'chalk'
 import { IncomingHttpHeaders } from 'http'
-import {getConfig, waitForServices, } from './support'
+import { getConfig, waitForServices } from './support'
 
-const PORT = 80
+const PORT = process.env.PORT || 80
 const headersToForward: string[] = process.env.FORWARD_HEADERS
     ? process.env.FORWARD_HEADERS.split(',').filter((x) => x.trim())
     : ['Authorization']
-
 
 type Context = {
     headers: IncomingHttpHeaders & any
@@ -16,7 +15,7 @@ type Context = {
 
 const makeGateway = () => {
     const headersMap = Object.fromEntries(
-        headersToForward.map((x) => [x.toLowerCase(), x])
+        headersToForward.map((x) => [x.toLowerCase(), x]),
     )
     // console.log(headersMap)
     return new ApolloGateway({
@@ -35,9 +34,9 @@ const makeGateway = () => {
                             }
                         })
                     }
-                }
+                },
             })
-        }
+        },
     })
 }
 
@@ -52,21 +51,21 @@ const main = async () => {
             schema,
             executor,
             engine: {
-                apiKey: process.env.ENGINE_API_KEY
+                apiKey: process.env.ENGINE_API_KEY,
             },
             cacheControl: {
                 calculateHttpHeaders: true,
-                defaultMaxAge: Number(process.env.CACHE_MAX_AGE) || 0
+                defaultMaxAge: Number(process.env.CACHE_MAX_AGE) || 0,
             },
             context: ({ req }): Context => {
                 return {
-                    headers: req.headers
+                    headers: req.headers,
                 }
-            }
+            },
         })
 
         return await server.listen(PORT).then(({ url }) => {
-            console.log(`🚀 Server ready at port 80`)
+            console.log(`🚀 Server ready at port ${PORT}`)
         })
     } catch (e) {
         console.error(chalk.red(e.name + ', ' + e.message))
