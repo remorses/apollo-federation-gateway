@@ -20,6 +20,13 @@ jobs:
           name: xmorse/apollo-federation-gateway
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          registry: gcr.io
+          name: containerful/apollo-federation-gateway
+          username: _json_key
+          password: ${{ secrets.GCP_KEY_JSON }}
 
 
 
